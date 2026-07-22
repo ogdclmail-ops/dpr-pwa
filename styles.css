@@ -1,0 +1,163 @@
+:root {
+  --bg: #181410;
+  --surface: #241E19;
+  --surface-raised: #2E2620;
+  --border: #3A3128;
+  --accent: #E08355;
+  --accent-dim: #3D2A20;
+  --text: #F7F1E8;
+  --text-dim: #B3A695;
+  --text-faint: #786C5C;
+  --active: #94B583;
+  --shut-in: #D9A24C;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.screen { min-height: 100vh; display: flex; justify-content: center; }
+
+/* ---------- Login ---------- */
+.login-wrap {
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+.login-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+.login-sub { color: var(--text-dim); margin-bottom: 28px; font-size: 0.95rem; }
+#login-form { display: flex; flex-direction: column; gap: 12px; }
+#login-form input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 1rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+#login-form input:focus { outline: none; border-color: var(--accent); }
+#login-button {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+#login-button:active { transform: scale(0.98); }
+.login-error { color: var(--shut-in); font-size: 0.85rem; min-height: 1.2em; margin-top: 4px; }
+
+/* ---------- App shell ---------- */
+.app-wrap { width: 100%; max-width: 430px; padding-bottom: 32px; }
+
+.field-header { padding: 32px 24px 8px; }
+.field-button {
+  background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: transform 0.15s ease;
+}
+.field-button:active { transform: scale(0.98); }
+#field-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 2.4rem;
+  color: var(--text);
+  line-height: 1;
+}
+.field-caret { color: var(--accent); font-size: 1.5rem; margin-top: -4px; }
+
+.date-nav { display: flex; align-items: center; gap: 16px; padding: 12px 24px; }
+.nav-btn {
+  width: 40px; height: 40px; border-radius: 999px;
+  background: var(--surface); border: none; color: var(--text);
+  font-size: 1.3rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s ease;
+}
+.nav-btn:active { transform: scale(0.9); }
+.date-label { flex: 1; text-align: center; font-weight: 600; color: var(--text-dim); }
+
+#content-area { animation: fadeSlide 0.4s ease; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 40px; gap: 12px; }
+.empty-title { font-size: 1.25rem; font-weight: 600; }
+.empty-sub { color: var(--text-faint); font-size: 0.9rem; }
+
+.hero-stats { display: flex; gap: 32px; padding: 24px; }
+.hero-stat-value {
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.6rem;
+  line-height: 1; margin-bottom: 4px; font-variant-numeric: tabular-nums;
+}
+.hero-stat-label { font-size: 0.9rem; color: var(--text-dim); font-weight: 500; }
+
+.well-list { padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
+.well-card {
+  width: 100%; text-align: left; border-radius: 20px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border);
+  cursor: pointer; transition: transform 0.15s ease;
+  animation: riseIn 0.4s ease backwards;
+}
+.well-card:active { transform: scale(0.98); }
+.well-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+.well-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.well-gas { font-size: 0.9rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.well-gas b { color: var(--accent); font-weight: 600; }
+.status-pill { font-size: 0.75rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; flex-shrink: 0; }
+
+.well-detail { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; }
+.well-detail.open { max-height: 200px; opacity: 1; }
+.well-detail-inner { display: flex; gap: 24px; padding: 4px 20px 16px; border-top: 1px solid var(--border); }
+.well-detail-stat { padding-top: 12px; }
+.well-detail-value { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.well-detail-label { font-size: 0.75rem; color: var(--text-faint); }
+.well-remarks { padding: 0 20px 16px; font-size: 0.9rem; font-style: italic; color: var(--text-dim); }
+
+/* ---------- Field picker sheet ---------- */
+.picker-backdrop {
+  position: fixed; inset: 0; background: #000; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease; z-index: 40;
+}
+.picker-backdrop.open { opacity: 0.6; pointer-events: auto; }
+
+.picker-sheet {
+  position: fixed; left: 50%; bottom: 0; width: 100%; max-width: 430px;
+  transform: translate(-50%, 100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 12px 8px 32px; max-height: 75vh; overflow-y: auto; z-index: 50;
+}
+.picker-sheet.open { transform: translate(-50%, 0); }
+.picker-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 16px; }
+.picker-title { font-size: 1.15rem; font-weight: 700; }
+.picker-close { width: 34px; height: 34px; border-radius: 999px; background: var(--surface-raised); border: none; color: var(--text-dim); cursor: pointer; }
+.picker-item {
+  display: block; width: 100%; text-align: left; padding: 16px; border-radius: 12px;
+  background: none; border: none; color: var(--text); font-size: 1.1rem; font-weight: 500;
+  cursor: pointer; margin-bottom: 2px; transition: transform 0.15s ease;
+}
+.picker-item:active { transform: scale(0.98); }
+.picker-item.selected { background: var(--accent-dim); color: var(--accent); font-weight: 700; }
+
+.sync-note { text-align: center; font-size: 0.75rem; color: var(--text-faint); padding: 24px 24px 0; }

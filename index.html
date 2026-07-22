@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Field Production</title>
+
+<meta name="theme-color" content="#181410" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Field Production" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="manifest" href="manifest.json" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Login screen -->
+<div id="login-screen" class="screen">
+  <div class="login-wrap">
+    <div class="login-title">Field Production</div>
+    <div class="login-sub">Sign in to view today's data</div>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" autocomplete="username" required />
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required />
+      <button type="submit" id="login-button">Sign in</button>
+      <div id="login-error" class="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Main app -->
+<div id="app-screen" class="screen" style="display:none;">
+  <div class="app-wrap">
+
+    <div class="field-header">
+      <button id="field-button" class="field-button">
+        <span id="field-name">—</span>
+        <span class="field-caret">▾</span>
+      </button>
+    </div>
+
+    <div class="date-nav">
+      <button id="date-prev" class="nav-btn" aria-label="Previous day">‹</button>
+      <div id="date-label" class="date-label">—</div>
+      <button id="date-next" class="nav-btn" aria-label="Next day">›</button>
+    </div>
+
+    <div id="content-area"></div>
+
+  </div>
+</div>
+
+<!-- Field picker sheet -->
+<div id="picker-backdrop" class="picker-backdrop"></div>
+<div id="picker-sheet" class="picker-sheet">
+  <div class="picker-header">
+    <div class="picker-title">Select field</div>
+    <button id="picker-close" class="picker-close">✕</button>
+  </div>
+  <div id="picker-list"></div>
+</div>
+
+<script type="module" src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
+</script>
+</body>
+</html>
