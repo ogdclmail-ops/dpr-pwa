@@ -160,6 +160,22 @@ button {
 .well-detail-stat-label { font-size: 0.68rem; color: var(--text-faint); margin-top: 2px; }
 .well-remarks { padding: 0 20px 16px; font-size: 0.9rem; font-style: italic; color: var(--text-dim); }
 
+/* ---------- Field-level operational highlights ---------- */
+.highlights-section { padding: 24px 24px 0; }
+.highlights-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 10px; }
+.highlights-text { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); white-space: pre-line; }
+
+/* ---------- Download button ---------- */
+.download-row { padding: 28px 24px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.download-btn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+  border-radius: 999px; padding: 13px 24px; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: transform 0.15s ease;
+}
+.download-btn:active { transform: scale(0.97); }
+.download-btn:disabled { opacity: 0.5; cursor: default; }
+.download-status { font-size: 0.75rem; color: var(--text-faint); min-height: 1em; }
+
 /* ---------- Field picker sheet ---------- */
 .picker-backdrop {
   position: fixed; inset: 0; background: #000; opacity: 0; pointer-events: none;
