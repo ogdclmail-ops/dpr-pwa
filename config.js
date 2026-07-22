@@ -9,4 +9,4 @@
 // Security (not secrecy of this key) is what actually protects your data.
 
 export const SUPABASE_URL = "https://qcprrbbhnilpikromjhn.supabase.co";
-export const SUPABASE_ANON_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+export const SUPABASE_ANON_KEY = "sb_publishable_zKQuceWP1m_4AOgZmJCsFw_RuiCjAen";
