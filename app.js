@@ -175,16 +175,21 @@ async function render() {
 
   const totalGas = rows.reduce((s, r) => s + (r.gas_produced_mmscf || 0), 0);
   const totalOil = rows.reduce((s, r) => s + (r.oil_produced_bpd || 0), 0);
+  const totalWater = rows.reduce((s, r) => s + (r.water_produced_bpd || 0), 0);
 
   contentArea.innerHTML = `
-    <div class="hero-stats">
-      <div class="flex-1">
-        <div class="hero-stat-value" id="hero-gas">0.0</div>
-        <div class="hero-stat-label">Gas · MMSCF</div>
+    <div class="hero-tiles">
+      <div class="hero-tile" style="background:var(--gas-dim);">
+        <div class="hero-tile-value" id="hero-gas" style="color:var(--gas);">0.0</div>
+        <div class="hero-tile-label" style="color:var(--gas);">GAS · MMSCF</div>
       </div>
-      <div class="flex-1">
-        <div class="hero-stat-value" id="hero-oil">0</div>
-        <div class="hero-stat-label">Oil · BPD</div>
+      <div class="hero-tile" style="background:var(--oil-dim);">
+        <div class="hero-tile-value" id="hero-oil" style="color:var(--oil);">0</div>
+        <div class="hero-tile-label" style="color:var(--oil);">OIL · BPD</div>
+      </div>
+      <div class="hero-tile" style="background:var(--water-dim);">
+        <div class="hero-tile-value" id="hero-water" style="color:var(--water);">0</div>
+        <div class="hero-tile-label" style="color:var(--water);">WATER · BPD</div>
       </div>
     </div>
     <div class="well-list" id="well-list"></div>
@@ -192,6 +197,7 @@ async function render() {
 
   animateCount(document.getElementById('hero-gas'), totalGas, 1);
   animateCount(document.getElementById('hero-oil'), totalOil, 0);
+  animateCount(document.getElementById('hero-water'), totalWater, 0);
 
   const wellListEl = document.getElementById('well-list');
   rows
@@ -204,22 +210,31 @@ async function render() {
       card.style.animationDelay = `${i * 45}ms`;
       card.innerHTML = `
         <div class="well-card-top">
-          <div style="min-width:0;">
-            <div class="well-name">${name}</div>
-            <div class="well-gas"><b>${fmt(row.gas_produced_mmscf, 2)}</b> MMSCF gas</div>
+          <div class="well-name">${name}</div>
+          ${status ? `<div class="well-status-badge"><span class="status-dot" style="background:${status.color};"></span>${status.label}</div>` : ''}
+        </div>
+        <div class="well-tiles">
+          <div class="well-tile" style="background:var(--gas-dim);">
+            <div class="well-tile-value" style="color:var(--gas);">${fmt(row.gas_produced_mmscf, 2)}</div>
+            <div class="well-tile-label" style="color:var(--gas);">GAS</div>
           </div>
-          ${status ? `<span class="status-pill" style="background:${status.color}22;color:${status.color};">${status.label}</span>` : ''}
+          <div class="well-tile" style="background:var(--oil-dim);">
+            <div class="well-tile-value" style="color:var(--oil);">${fmt(row.oil_produced_bpd, 0)}</div>
+            <div class="well-tile-label" style="color:var(--oil);">OIL</div>
+          </div>
+          <div class="well-tile" style="background:var(--water-dim);">
+            <div class="well-tile-value" style="color:var(--water);">${fmt(row.water_produced_bpd, 0)}</div>
+            <div class="well-tile-label" style="color:var(--water);">WATER</div>
+          </div>
         </div>
         <div class="well-detail">
-          <div class="well-detail-inner">
-            <div class="well-detail-stat">
-              <div class="well-detail-value">${fmt(row.oil_produced_bpd, 0)}</div>
-              <div class="well-detail-label">Oil, BPD</div>
-            </div>
-            <div class="well-detail-stat">
-              <div class="well-detail-value">${fmt(row.water_produced_bpd, 0)}</div>
-              <div class="well-detail-label">Water, BPD</div>
-            </div>
+          <div class="well-detail-grid">
+            <div><div class="well-detail-stat-value">${fmt(row.choke_size, 0)}</div><div class="well-detail-stat-label">Choke, 1/64"</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.fcv_pct, 0)}</div><div class="well-detail-stat-label">FCV, %</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.whfp_psi, 0)}</div><div class="well-detail-stat-label">WHFP, psi</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.line_pressure_psi, 0)}</div><div class="well-detail-stat-label">Line P, psi</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.lpg_produced_mton, 2)}</div><div class="well-detail-stat-label">LPG, mton</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.ngl_produced_bbls, 1)}</div><div class="well-detail-stat-label">NGL, bbls</div></div>
           </div>
           ${row.remarks ? `<div class="well-remarks">${row.remarks}</div>` : ''}
         </div>
