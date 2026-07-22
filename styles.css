@@ -8,6 +8,12 @@
   --text: #F7F1E8;
   --text-dim: #B3A695;
   --text-faint: #786C5C;
+  --oil: #6FBF73;
+  --oil-dim: #1E2E1D;
+  --gas: #E0524A;
+  --gas-dim: #331E1B;
+  --water: #5B9FE0;
+  --water-dim: #1B2530;
   --active: #94B583;
   --shut-in: #D9A24C;
 }
@@ -21,6 +27,14 @@ html, body {
   color: var(--text);
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+}
+
+/* Buttons don't inherit color/font from ancestors by default in most
+   browsers -- this must be set explicitly on every clickable element,
+   or text silently renders in the browser's default (often black). */
+button {
+  color: inherit;
+  font-family: inherit;
 }
 
 .screen { min-height: 100vh; display: flex; justify-content: center; }
@@ -66,7 +80,7 @@ html, body {
   transition: transform 0.15s ease;
 }
 #login-button:active { transform: scale(0.98); }
-.login-error { color: var(--shut-in); font-size: 0.85rem; min-height: 1.2em; margin-top: 4px; }
+.login-error { color: var(--gas); font-size: 0.85rem; min-height: 1.2em; margin-top: 4px; }
 
 /* ---------- App shell ---------- */
 .app-wrap { width: 100%; max-width: 430px; padding-bottom: 32px; }
@@ -106,33 +120,44 @@ html, body {
 .empty-title { font-size: 1.25rem; font-weight: 600; }
 .empty-sub { color: var(--text-faint); font-size: 0.9rem; }
 
-.hero-stats { display: flex; gap: 32px; padding: 24px; }
-.hero-stat-value {
-  font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.6rem;
-  line-height: 1; margin-bottom: 4px; font-variant-numeric: tabular-nums;
+/* ---------- Hero tiles (field total) ---------- */
+.hero-tiles { display: flex; gap: 10px; padding: 8px 24px 24px; }
+.hero-tile { flex: 1; border-radius: 18px; padding: 16px 14px; }
+.hero-tile-value {
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.9rem;
+  line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums;
 }
-.hero-stat-label { font-size: 0.9rem; color: var(--text-dim); font-weight: 500; }
+.hero-tile-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; }
 
+/* ---------- Well cards ---------- */
 .well-list { padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
 .well-card {
   width: 100%; text-align: left; border-radius: 20px; overflow: hidden;
   background: var(--surface); border: 1px solid var(--border);
   cursor: pointer; transition: transform 0.15s ease;
   animation: riseIn 0.4s ease backwards;
+  padding: 0;
 }
 .well-card:active { transform: scale(0.98); }
-.well-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
-.well-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.well-gas { font-size: 0.9rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
-.well-gas b { color: var(--accent); font-weight: 600; }
-.status-pill { font-size: 0.75rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; flex-shrink: 0; }
 
-.well-detail { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; }
-.well-detail.open { max-height: 200px; opacity: 1; }
-.well-detail-inner { display: flex; gap: 24px; padding: 4px 20px 16px; border-top: 1px solid var(--border); }
-.well-detail-stat { padding-top: 12px; }
-.well-detail-value { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.well-detail-label { font-size: 0.75rem; color: var(--text-faint); }
+.well-card-top { padding: 16px 20px 4px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.well-name { font-weight: 700; font-size: 1.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.well-status-badge { font-size: 0.72rem; color: var(--text-faint); font-weight: 500; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
+.status-dot { width: 6px; height: 6px; border-radius: 999px; flex-shrink: 0; }
+
+.well-tiles { display: flex; gap: 8px; padding: 10px 20px 16px; }
+.well-tile { flex: 1; border-radius: 14px; padding: 10px 8px; text-align: center; }
+.well-tile-value { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; margin-bottom: 2px; }
+.well-tile-label { font-size: 0.65rem; font-weight: 600; opacity: 0.85; }
+
+.well-detail { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; }
+.well-detail.open { max-height: 320px; opacity: 1; }
+.well-detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px 10px; padding: 6px 20px 16px; border-top: 1px solid var(--border); margin-top: 2px; padding-top: 14px;
+}
+.well-detail-stat-value { font-size: 1.05rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.well-detail-stat-label { font-size: 0.68rem; color: var(--text-faint); margin-top: 2px; }
 .well-remarks { padding: 0 20px 16px; font-size: 0.9rem; font-style: italic; color: var(--text-dim); }
 
 /* ---------- Field picker sheet ---------- */
@@ -150,7 +175,7 @@ html, body {
 }
 .picker-sheet.open { transform: translate(-50%, 0); }
 .picker-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 16px; }
-.picker-title { font-size: 1.15rem; font-weight: 700; }
+.picker-title { font-size: 1.15rem; font-weight: 700; color: var(--text); }
 .picker-close { width: 34px; height: 34px; border-radius: 999px; background: var(--surface-raised); border: none; color: var(--text-dim); cursor: pointer; }
 .picker-item {
   display: block; width: 100%; text-align: left; padding: 16px; border-radius: 12px;
