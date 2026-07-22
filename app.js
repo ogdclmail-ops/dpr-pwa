@@ -10,7 +10,8 @@ let fieldsList = [];          // [{code, real_name}]
 let wellsCache = {};          // fieldCode -> [{code, real_name}]
 let currentFieldCode = null;
 let currentFieldName = null;
-let currentDate = new Date(); // navigable date
+let currentDate = new Date();
+currentDate.setDate(currentDate.getDate() - 1); // DPRs report the PRIOR day's production, so default to it
 
 // ============================================================
 // DOM refs
@@ -176,6 +177,8 @@ async function render() {
   const totalGas = rows.reduce((s, r) => s + (r.gas_produced_mmscf || 0), 0);
   const totalOil = rows.reduce((s, r) => s + (r.oil_produced_bpd || 0), 0);
   const totalWater = rows.reduce((s, r) => s + (r.water_produced_bpd || 0), 0);
+  const highlights = rows.find((r) => r.operational_highlights)?.operational_highlights;
+  const sourceFilename = rows[0]?.source_filename;
 
   contentArea.innerHTML = `
     <div class="hero-tiles">
@@ -193,6 +196,15 @@ async function render() {
       </div>
     </div>
     <div class="well-list" id="well-list"></div>
+    ${highlights ? `
+      <div class="highlights-section">
+        <div class="highlights-title">OPERATIONAL HIGHLIGHTS</div>
+        <div class="highlights-text">${highlights}</div>
+      </div>` : ''}
+    <div class="download-row">
+      <button id="download-btn" class="download-btn">Download source DPR</button>
+      <div id="download-status" class="download-status"></div>
+    </div>
   `;
 
   animateCount(document.getElementById('hero-gas'), totalGas, 1);
@@ -244,6 +256,68 @@ async function render() {
       });
       wellListEl.appendChild(card);
     });
+
+  wireDownloadButton(sourceFilename);
+}
+
+async function wireDownloadButton(sourceFilename) {
+  const btn = document.getElementById('download-btn');
+  const status = document.getElementById('download-status');
+  if (!btn) return;
+
+  if (!sourceFilename) {
+    btn.disabled = true;
+    status.textContent = 'No source file on record';
+    return;
+  }
+
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    status.textContent = 'Finding file…';
+
+    // daily_production tells us WHICH file this data came from;
+    // processed_files tells us WHERE that file lives in Storage.
+    // Looking it up this way (rather than guessing a path from
+    // field/date) works correctly for every field, including Shewa,
+    // whose date is a pipeline-assigned fallback rather than a real
+    // value stored anywhere consistent enough to reconstruct a path from.
+    const { data: fileRecord, error: lookupError } = await supabase
+      .from('processed_files')
+      .select('raw_storage_path')
+      .eq('filename', sourceFilename)
+      .eq('status', 'success')
+      .order('processed_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (lookupError || !fileRecord?.raw_storage_path) {
+      status.textContent = "Couldn't find the archived file";
+      btn.disabled = false;
+      return;
+    }
+
+    status.textContent = 'Downloading…';
+    const { data: blob, error: downloadError } = await supabase.storage
+      .from('dpr-files')
+      .download(fileRecord.raw_storage_path);
+
+    btn.disabled = false;
+
+    if (downloadError || !blob) {
+      status.textContent = 'Download failed';
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = sourceFilename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    status.textContent = '';
+  });
 }
 
 // ============================================================
