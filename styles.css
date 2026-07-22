@@ -1,21 +1,18 @@
 :root {
-  --bg: #181410;
-  --surface: #241E19;
-  --surface-raised: #2E2620;
-  --border: #3A3128;
-  --accent: #E08355;
-  --accent-dim: #3D2A20;
-  --text: #F7F1E8;
-  --text-dim: #B3A695;
-  --text-faint: #786C5C;
-  --oil: #6FBF73;
-  --oil-dim: #1E2E1D;
-  --gas: #E0524A;
-  --gas-dim: #331E1B;
-  --water: #5B9FE0;
-  --water-dim: #1B2530;
-  --active: #94B583;
-  --shut-in: #D9A24C;
+  --bg: #121212;
+  --surface: #1C1C1E;
+  --surface-raised: #2C2C2E;
+  --border: #38383A;
+  --accent: #0A84FF;
+  --accent-dim: #0A2A4D;
+  --text: #F2F2F7;
+  --text-dim: #98989D;
+  --text-faint: #636366;
+  --oil: #34C759;
+  --gas: #FF5A4E;
+  --water: #0A84FF;
+  --dark-on-tile: #14171A;
+  --shut-in: #FF9F0A;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -29,13 +26,7 @@ html, body {
   min-height: 100vh;
 }
 
-/* Buttons don't inherit color/font from ancestors by default in most
-   browsers -- this must be set explicitly on every clickable element,
-   or text silently renders in the browser's default (often black). */
-button {
-  color: inherit;
-  font-family: inherit;
-}
+button { color: inherit; font-family: inherit; }
 
 .screen { min-height: 100vh; display: flex; justify-content: center; }
 
@@ -69,7 +60,7 @@ button {
 #login-form input:focus { outline: none; border-color: var(--accent); }
 #login-button {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--dark-on-tile);
   border: none;
   border-radius: 14px;
   padding: 16px;
@@ -83,7 +74,7 @@ button {
 .login-error { color: var(--gas); font-size: 0.85rem; min-height: 1.2em; margin-top: 4px; }
 
 /* ---------- App shell ---------- */
-.app-wrap { width: 100%; max-width: 430px; padding-bottom: 32px; }
+.app-wrap { width: 100%; max-width: 430px; padding-bottom: 100px; }
 
 .field-header { padding: 32px 24px 8px; }
 .field-button {
@@ -120,14 +111,15 @@ button {
 .empty-title { font-size: 1.25rem; font-weight: 600; }
 .empty-sub { color: var(--text-faint); font-size: 0.9rem; }
 
-/* ---------- Hero tiles (field total) ---------- */
-.hero-tiles { display: flex; gap: 10px; padding: 8px 24px 24px; }
-.hero-tile { flex: 1; border-radius: 18px; padding: 16px 14px; }
+/* ---------- Hero tiles (field total) -- solid fill, dark text ---------- */
+.hero-tiles { display: flex; gap: 8px; padding: 8px 24px 20px; }
+.hero-tile { flex: 1; border-radius: 18px; padding: 16px 12px; }
 .hero-tile-value {
-  font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.9rem;
+  font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.7rem;
   line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums;
+  color: var(--dark-on-tile);
 }
-.hero-tile-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; }
+.hero-tile-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.02em; color: var(--dark-on-tile); opacity: 0.75; }
 
 /* ---------- Well cards ---------- */
 .well-list { padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
@@ -140,15 +132,16 @@ button {
 }
 .well-card:active { transform: scale(0.98); }
 
-.well-card-top { padding: 16px 20px 4px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.well-card-top { padding: 16px 20px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .well-name { font-weight: 700; font-size: 1.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.well-status-badge { font-size: 0.72rem; color: var(--text-faint); font-weight: 500; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
+.well-status-badge { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
 .status-dot { width: 6px; height: 6px; border-radius: 999px; flex-shrink: 0; }
 
-.well-tiles { display: flex; gap: 8px; padding: 10px 20px 16px; }
+/* Solid fill tiles, dark text -- not the translucent/tinted style from before */
+.well-tiles { display: flex; gap: 8px; padding: 0 20px 16px; }
 .well-tile { flex: 1; border-radius: 14px; padding: 10px 8px; text-align: center; }
-.well-tile-value { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; margin-bottom: 2px; }
-.well-tile-label { font-size: 0.65rem; font-weight: 600; opacity: 0.85; }
+.well-tile-value { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; margin-bottom: 2px; color: var(--dark-on-tile); }
+.well-tile-label { font-size: 0.65rem; font-weight: 700; color: var(--dark-on-tile); opacity: 0.7; }
 
 .well-detail { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; }
 .well-detail.open { max-height: 320px; opacity: 1; }
@@ -202,3 +195,21 @@ button {
 .picker-item.selected { background: var(--accent-dim); color: var(--accent); font-weight: 700; }
 
 .sync-note { text-align: center; font-size: 0.75rem; color: var(--text-faint); padding: 24px 24px 0; }
+
+/* ---------- Bottom nav -- fixed, does not scroll with content ---------- */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px; display: flex;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+  z-index: 30;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 12px 0; background: none; border: none; cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.nav-item:active { transform: scale(0.95); }
+.nav-item:disabled { opacity: 0.4; cursor: default; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 0.68rem; font-weight: 500; }
