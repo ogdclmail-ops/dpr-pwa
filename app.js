@@ -182,17 +182,17 @@ async function render() {
 
   contentArea.innerHTML = `
     <div class="hero-tiles">
-      <div class="hero-tile" style="background:var(--gas-dim);">
-        <div class="hero-tile-value" id="hero-gas" style="color:var(--gas);">0.0</div>
-        <div class="hero-tile-label" style="color:var(--gas);">GAS · MMSCF</div>
+      <div class="hero-tile" style="background:var(--gas);">
+        <div class="hero-tile-value" id="hero-gas">0.0</div>
+        <div class="hero-tile-label">GAS · MMSCF</div>
       </div>
-      <div class="hero-tile" style="background:var(--oil-dim);">
-        <div class="hero-tile-value" id="hero-oil" style="color:var(--oil);">0</div>
-        <div class="hero-tile-label" style="color:var(--oil);">OIL · BPD</div>
+      <div class="hero-tile" style="background:var(--oil);">
+        <div class="hero-tile-value" id="hero-oil">0</div>
+        <div class="hero-tile-label">OIL · BPD</div>
       </div>
-      <div class="hero-tile" style="background:var(--water-dim);">
-        <div class="hero-tile-value" id="hero-water" style="color:var(--water);">0</div>
-        <div class="hero-tile-label" style="color:var(--water);">WATER · BPD</div>
+      <div class="hero-tile" style="background:var(--water);">
+        <div class="hero-tile-value" id="hero-water">0</div>
+        <div class="hero-tile-label">WATER · BPD</div>
       </div>
     </div>
     <div class="well-list" id="well-list"></div>
@@ -226,17 +226,17 @@ async function render() {
           ${status ? `<div class="well-status-badge"><span class="status-dot" style="background:${status.color};"></span>${status.label}</div>` : ''}
         </div>
         <div class="well-tiles">
-          <div class="well-tile" style="background:var(--gas-dim);">
-            <div class="well-tile-value" style="color:var(--gas);">${fmt(row.gas_produced_mmscf, 2)}</div>
-            <div class="well-tile-label" style="color:var(--gas);">GAS</div>
+          <div class="well-tile" style="background:var(--gas);">
+            <div class="well-tile-value">${fmt(row.gas_produced_mmscf, 2)}</div>
+            <div class="well-tile-label">GAS</div>
           </div>
-          <div class="well-tile" style="background:var(--oil-dim);">
-            <div class="well-tile-value" style="color:var(--oil);">${fmt(row.oil_produced_bpd, 0)}</div>
-            <div class="well-tile-label" style="color:var(--oil);">OIL</div>
+          <div class="well-tile" style="background:var(--oil);">
+            <div class="well-tile-value">${fmt(row.oil_produced_bpd, 0)}</div>
+            <div class="well-tile-label">OIL</div>
           </div>
-          <div class="well-tile" style="background:var(--water-dim);">
-            <div class="well-tile-value" style="color:var(--water);">${fmt(row.water_produced_bpd, 0)}</div>
-            <div class="well-tile-label" style="color:var(--water);">WATER</div>
+          <div class="well-tile" style="background:var(--water);">
+            <div class="well-tile-value">${fmt(row.water_produced_bpd, 0)}</div>
+            <div class="well-tile-label">WATER</div>
           </div>
         </div>
         <div class="well-detail">
