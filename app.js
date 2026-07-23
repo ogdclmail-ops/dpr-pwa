@@ -175,7 +175,7 @@ async function render() {
   }
 
   const totalGas = rows.reduce((s, r) => s + (r.gas_produced_mmscf || 0), 0);
-  const totalOil = rows.reduce((s, r) => s + (r.oil_produced_bpd || 0), 0);
+  const totalOil = rows.reduce((s, r) => s + (r.oil_produced_bpd ?? r.cond_produced_bpd ?? 0), 0);
   const totalWater = rows.reduce((s, r) => s + (r.water_produced_bpd || 0), 0);
   const highlights = rows.find((r) => r.operational_highlights)?.operational_highlights;
   const sourceFilename = rows[0]?.source_filename;
@@ -231,7 +231,7 @@ async function render() {
             <div class="well-tile-label">GAS</div>
           </div>
           <div class="well-tile" style="background:var(--oil);">
-            <div class="well-tile-value">${fmt(row.oil_produced_bpd, 0)}</div>
+            <div class="well-tile-value">${fmt(row.oil_produced_bpd ?? row.cond_produced_bpd, 0)}</div>
             <div class="well-tile-label">OIL</div>
           </div>
           <div class="well-tile" style="background:var(--water);">
@@ -245,6 +245,7 @@ async function render() {
             <div><div class="well-detail-stat-value">${fmt(row.fcv_pct, 0)}</div><div class="well-detail-stat-label">FCV, %</div></div>
             <div><div class="well-detail-stat-value">${fmt(row.whfp_psi, 0)}</div><div class="well-detail-stat-label">WHFP, psi</div></div>
             <div><div class="well-detail-stat-value">${fmt(row.line_pressure_psi, 0)}</div><div class="well-detail-stat-label">Line P, psi</div></div>
+            <div><div class="well-detail-stat-value">${fmt(row.cond_produced_bpd, 0)}</div><div class="well-detail-stat-label">Condensate, BPD</div></div>
             <div><div class="well-detail-stat-value">${fmt(row.lpg_produced_mton, 2)}</div><div class="well-detail-stat-label">LPG, mton</div></div>
             <div><div class="well-detail-stat-value">${fmt(row.ngl_produced_bbls, 1)}</div><div class="well-detail-stat-label">NGL, bbls</div></div>
           </div>
